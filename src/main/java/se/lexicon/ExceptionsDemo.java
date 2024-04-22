@@ -1,5 +1,7 @@
 package se.lexicon;
 
+import se.lexicon.exception.InsufficientFoundsException;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -33,9 +35,21 @@ public class ExceptionsDemo {
 
         //readTextFile();
 
-        writeTextToFile();
+        //writeTextToFile();
 
-
+        BankAccount account1 = new BankAccount(100);
+        BankAccount account2 = new BankAccount(100);
+        try {
+            // account1.deposit(-200);
+            account1.deposit(200);
+            account1.withdraw(800);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage()); // Get the declared message from the IllegalArgumentException from the deposit method
+        } catch (InsufficientFoundsException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.description()); // Safe to display to users, then users share error code and we trace it
+            // e.printStackTrace(); // Not safe to display to users
+        }
     }
 
     public static double takeDecimalInput() {
@@ -87,7 +101,6 @@ public class ExceptionsDemo {
 
         return date;
     };
-
 
     public static void readTextFile() {
         // java.nio
@@ -150,7 +163,6 @@ public class ExceptionsDemo {
 
     }
 
-
     public static void writeTextToFileTryWithRecourses() {
         Path skillsFilePath = Paths.get("dir/skills.txt");
         try (
@@ -166,8 +178,4 @@ public class ExceptionsDemo {
             e.printStackTrace();
         }
     }
-
-
-
-
 }
